@@ -8,3 +8,47 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+# Tutorial 3
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(skimr)
+
+survey <-read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-05-18/survey.csv')
+
+
+survey%>%head()
+
+
+survey%>%skim()  #learning about variable types
+
+survey%>%glimpse()  #A quick demonstration of the data contained in each column, giving an idea about the data frame
+
+survey%>%filter(how_old_are_you=="25-34")
+
+
+survey%>%filter(industry=="Computing Or Tech" | annual_salary>80000)
+
+survey%>%select(how_old_are_you, industry, annual_salary)
+
+survey%>%select(how_old_are_you, industry, annual_salary)%>%
+  filter(how_old_are_you=="25-34" & annual_salary>80000)
+
+survey%>%rename(age_range = how_old_are_you)
+survey #view the data with the age_range
+
+survey_new <- survey%>%
+  mutate(age=parse_number(how_old_are_you))
+
+survey_new #view the data with the age column at the very end
+
+survey_new%>%group_by(industry)%>%summarise(mean_age=mean(age)) #grouping and calculating average (mean)
+
+survey%>% count(country)
+
+
+
+```
+
